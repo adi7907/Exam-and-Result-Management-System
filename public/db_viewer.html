@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exam System DB Viewer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
+    body { background: #0d1117; color: #c9d1d9; padding: 30px; }
+    header { border-bottom: 1px solid #30363d; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .badge { background: #1f6feb33; color: #58a6ff; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-family: sans-serif; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #161b22; border-radius: 8px; overflow: hidden; }
+    th { background: #21262d; padding: 12px; text-align: left; color: #8b949e; text-transform: uppercase; }
+    td { padding: 12px; border-bottom: 1px solid #30363d; transition: 0.2s; }
+    
+    /* Highlight cells when editing */
+    td[contenteditable="true"]:hover { background: #1f6feb33; cursor: text; }
+    td[contenteditable="true"]:focus { background: #1f6feb66; outline: 1px solid #58a6ff; color: white; }
+    
+    tr:hover { background: #1c2128; }
+    .pk { color: #f59e0b; font-weight: bold; }
+    .refresh { background: #23863a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>🔒 Raw Database Output (Editable)</h2>
+    <div><span class="badge">exam.db SQLite</span> <button class="refresh" onclick="loadDB()">⟳ Refresh Data</button></div>
+  </header>
+  
+  <h3>Table: students <span style="font-size: 12px; color: #8b949e; font-family: sans-serif;">(Click any cell to edit)</span></h3>
+  <table>
+    <thead><tr><th>ID (PK)</th><th>Name</th><th>Age</th><th>Maths</th><th>CS</th></tr></thead>
+    <tbody id="db-body"></tbody>
+  </table>
+
+  <script>
+    // 1. Function to save edits directly to the SQLite database
+    async function updateField(id, column, value) {
+      try {
+        await fetch(`http://localhost:3000/api/students/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sub: column, val: value })
+        });
+      } catch (err) {
+        alert("Error saving to database!");
+      }
+    }
+
+    // 2. Load the database and make cells editable
+    async function loadDB() {
+      const tbody = document.getElementById("db-body");
+      try {
+        const res = await fetch("http://localhost:3000/api/all");
+        const data = await res.json();
+        tbody.innerHTML = "";
+        
+        data.students.forEach(s => {
+          tbody.innerHTML += `<tr>
+            <td class="pk">${s.id}</td>
+            <td contenteditable="true" onblur="updateField('${s.id}', 'name', this.innerText)">${s.name}</td>
+            <td contenteditable="true" onblur="updateField('${s.id}', 'age', this.innerText)">${s.age}</td>
+            <td contenteditable="true" onblur="updateField('${s.id}', 'maths', this.innerText)">${s.maths}</td>
+            <td contenteditable="true" onblur="updateField('${s.id}', 'cs', this.innerText)">${s.cs}</td>
+          </tr>`;
+        });
+      } catch (err) {
+        tbody.innerHTML = "<tr><td colspan='5'>Backend Server Not Running</td></tr>";
+      }
+    }
+    
+    loadDB();
+  </script>
+</body>
+</html>

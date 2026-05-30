@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { 
+  box-sizing: border-box; 
+  font-family: 'Inter', sans-serif; 
+}
+
+body { 
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex; 
+  justify-content: center; 
+  align-items: flex-start;
+  padding: 8vh 20px; 
+  margin: 0; 
+}
+
+/* Modern Card Container */
+.card { 
+  background: white; 
+  padding: 40px; 
+  border-radius: 16px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+  width: 100%; 
+  max-width: 420px; 
+  text-align: center; 
+  animation: fadeIn 0.4s ease-out;
+}
+
+.card.large { 
+  max-width: 750px; 
+}
+
+/* Typography */
+h1, h2 { color: #2c3e50; margin-top: 0; letter-spacing: -0.5px; }
+h3 { color: #3498db; margin-bottom: 20px; }
+p { color: #666; font-size: 15px; line-height: 1.5; }
+
+/* Inputs and Dropdowns */
+input, select { 
+  width: 100%; 
+  padding: 12px 15px; 
+  margin: 10px 0; 
+  border: 1.5px solid #e1e8ed; 
+  border-radius: 8px; 
+  font-size: 15px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Premium Buttons */
+button { 
+  background: #2980b9; 
+  color: white; 
+  border: none; 
+  padding: 12px 20px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-weight: 600; 
+  font-size: 15px;
+  width: 100%; 
+  margin-top: 15px; 
+  transition: all 0.2s ease; 
+}
+
+button:hover { 
+  background: #2471a3; 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+}
+
+button.secondary { 
+  background: #ecf0f1; 
+  color: #555; 
+  margin-top: 10px;
+}
+
+button.secondary:hover { 
+  background: #bdc3c7; 
+  color: #333;
+  box-shadow: none;
+}
+
+/* Clean Academic Tables */
+.table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin: 20px 0; 
+  text-align: left; 
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #e1e8ed;
+}
+
+.table th, .table td { 
+  padding: 14px 15px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.table th { 
+  background: #f8f9fa; 
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr:hover {
+  background: #fcfcfc;
+}
+
+.table td input {
+  padding: 8px;
+  margin: 0;
+  border: 1px solid #ddd;
+}
+
+/* Smooth pop-in effect when changing pages */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
